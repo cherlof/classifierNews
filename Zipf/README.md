@@ -1,13 +1,9 @@
 # Проверка закона Ципфа
 ## Новости Крипты
-![newsCrypto.png](newsCrypto.png)
-### Рейтинг популярных слов
-[newsCrypto.txt](newsCrypto.txt)
+![newsCryptoProcessed.png](newsCryptoProcessed.png)
+
 ## Новости Футбола
-![newsFootball.png](newsFootball.png)
-### Рейтинг популярных слов
-[newsFootball.txt](newsFootball.txt)
+![newsFootballProcessed.png](newsFootballProcessed.png)
+
 ## Новости Хоккея
-![newsHockey.png](newsHockey.png)
-### Рейтинг популярных слов
-[newsHockey.txt](newsHockey.txt)
+![newsHockeyProcessed.png](newsHockeyProcessed.png)

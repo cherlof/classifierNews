@@ -1,0 +1,11 @@
+Матрица M2 с PCA (Tf-Idf) и Random Forest:
+Accuracy: 0.8333333333333334
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         4
+           1       0.50      0.50      0.50         2
+           2       0.83      0.83      0.83         6
+
+    accuracy                           0.83        12
+   macro avg       0.78      0.78      0.78        12
+weighted avg       0.83      0.83      0.83        12

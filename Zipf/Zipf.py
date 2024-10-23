@@ -1,62 +1,46 @@
 import json
 import matplotlib.pyplot as plt
 from collections import Counter
-import re
 
 
-def load_data(filename):
-    with open(filename, 'r', encoding='utf-8') as f:
-        articles = json.load(f)
-    return articles
+def zipf_law(words, name):
+    frequency = Counter(words)
+    sorted_words = sorted(frequency, key=frequency.get, reverse=True)
+    sorted_frequencies = [frequency[word] for word in sorted_words]
 
-
-def get_word_frequencies(articles):
-    text = " ".join(article['text'] for article in articles)
-    words = re.findall(r'\w+', text.lower())
-    return Counter(words)
-
-
-def plot_zipf_law(frequencies, name):
-    ranks = range(1, len(frequencies) + 1)
-    frequencies = [freq for word, freq in frequencies]
-
-    plt.figure(figsize=(10, 6))
-    plt.plot(ranks, frequencies, marker='o')
-    plt.xscale('log')
-    plt.yscale('log')
-    plt.xlabel('Ранг')
-    plt.ylabel('Частота')
+    # График закона Ципфа
+    plt.figure(figsize=(12, 8))
+    plt.bar(sorted_words[:50], sorted_frequencies[:50])  # Показываем топ-50 слов для удобства отображения
+    plt.xticks(rotation=90)
+    plt.xlabel('Слова')
+    plt.ylabel('Частота встречаемости')
     plt.title('Закон Ципфа')
-    plt.grid(True)
-    plt.savefig(name + '.png')
+    plt.savefig(name + '.png')  # Сохранение графика
+    plt.show()
 
-def save_top_words(frequencies, filename, top_n=20):
-    with open(filename, 'w', encoding='utf-8') as f:
-        for word, freq in frequencies[:top_n]:
-            f.write(f"{word}: {freq}\n")
+
+def process_json(input_filename):
+    with open(input_filename, 'r', encoding='utf-8') as file:
+        data = json.load(file)
+
+    all_words = []
+    for item in data:
+        if isinstance(item, dict):
+            for key in ["title", "text"]:
+                if key in item:
+                    words = item[key].split()  # Простое разбиение текста на слова
+                    all_words.extend(words)
+
+    return all_words
 
 
 def main():
-    name = 'newsCrypto'
-    articles = load_data('newsCrypto.json')
-    word_frequencies = get_word_frequencies(articles)
-    sorted_frequencies = word_frequencies.most_common()
-    plot_zipf_law(sorted_frequencies, name)
-    save_top_words(sorted_frequencies, name+'.txt')
-
-    name = 'newsFootball'
-    articles = load_data('newsFootball.json')
-    word_frequencies = get_word_frequencies(articles)
-    sorted_frequencies = word_frequencies.most_common()
-    plot_zipf_law(sorted_frequencies, name)
-    save_top_words(sorted_frequencies, name + '.txt')
-
-    name = 'newsHockey'
-    articles = load_data('newsHockey.json')
-    word_frequencies = get_word_frequencies(articles)
-    sorted_frequencies = word_frequencies.most_common()
-    plot_zipf_law(sorted_frequencies, name)
-    save_top_words(sorted_frequencies, name + '.txt')
+    filenames = ['newsCryptoProcessed.json', 'newsFootballProcessed.json', 'newsHockeyProcessed.json']
+    for filename in filenames:
+        words = process_json(filename)
+        print(f"Обрабатываем файл: {filename}, количество слов: {len(words)}")
+        name = filename.split('.')[0]
+        zipf_law(words, name)
 
 
 if __name__ == "__main__":
